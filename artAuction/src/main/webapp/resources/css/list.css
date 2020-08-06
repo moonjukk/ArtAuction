@@ -1,0 +1,212 @@
+	.container{
+		width:1200px;
+        margin:auto;
+    }
+	#searchList {
+		padding: 0px;
+        margin: 0px;
+        box-sizing: border-box;  
+        width: 1200px;
+        margin: 0 auto;
+        margin-top: 100px;
+	}
+	.searchList {
+    	padding: 0px;
+       	margin: 0px;
+        box-sizing: border-box;  
+        background-color: #F7F7F7;
+        list-style-type: none;
+        height: 135px;
+        border: 1px solid rgb(209, 206, 206);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+	}
+	#selectSearchList{
+		height:40px;
+		width:100px;
+		text-align: center;
+		padding:5px;
+		border: 1px solid rgb(209, 206, 206);
+	}
+	.searchOption {
+		padding: 0px;
+        margin: 0px;
+        box-sizing: border-box;  
+        width: 700px;
+        height: 40px;
+        border-radius: 3px;
+        border: 1px solid rgb(209, 206, 206);
+	}
+	.searchListText {
+    	padding: 0px;
+        margin: 0px;
+        box-sizing: border-box;  
+        width: 90%;
+        padding-left: 5px;
+        border: 0px;
+        float: left;
+        outline: none;
+        height: 100%;
+	}
+	.searchListButton {
+        padding: 0px;
+        margin: 0px;
+        box-sizing: border-box;  
+        width: 10%;
+        height: 100%;
+        float: right;
+        outline: none;
+        background-color: #001C3C;
+        color: white;
+        border: none;
+        cursor:pointer;
+	}
+	.searchButton:hover{
+    	background-color: #001124;
+        color: white;
+    }        
+    .category2:hover{
+        background-color:#001C3C;
+        color:white;
+    }
+    .categoryActive{
+        background-color: #001C3C;
+        color:white;
+    }
+    .categoryList{
+        width:1200px;
+        float: left;
+        border-top: solid;
+        border-top-color:#001C3C;
+        border-bottom: solid;
+        border-bottom-color: lightgray;
+        background-color: rgb(252, 252, 252);
+        border-width: 2px;
+    }
+    .category2{
+        padding:5px;
+        width:287.5px;
+        float: left;
+        cursor: pointer;
+    }
+    .categoryMargin{
+        float: left;
+        width:100%;
+        margin-top:5px;
+        margin-bottom: 5px;
+    }
+    .dropList {
+        width:1200px;
+        float:left;
+        border-bottom:solid 2px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .dropListLeft{
+        float: left;
+        font-size: 18px;
+        margin-top: 10px;
+    }
+    .fa-check-circle{
+        color:#001C3C !important;
+    }
+    .dropListLeft span{
+        color:#001C3C;
+    }
+    .dropListRight{
+        float:right;
+        margin:5px 5px 5px 5px;
+    }
+    .select1{
+        width:120px;
+        height:30px;
+        font-size:15px;
+        padding:5px;
+    }
+    .select2{
+        width:120px;
+        height:30px;
+        font-size:15px;
+        padding:5px;
+    }
+	.list:hover{
+        background-color: rgb(243,243,243);
+    }
+    .list{
+        background-color: rgb(252, 252, 252);
+        width:226px;
+        height:310px;
+        float:left;
+        border: solid;
+        border-color: rgb(226, 226, 226);
+        margin-right: 5px;
+        margin-left:5px;
+        margin-top: 10px;
+        border-width: 2px;
+        cursor: pointer;
+        padding-bottom:10px;
+        padding-top:5px;
+    }
+    .list div{
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-top: 5px;
+    }
+    .listImg{
+        text-align: center;
+        margin-top:20px !important;
+    }
+    .listImg img{
+        width:150px;
+        height:150px;
+        object-fit: contain;
+    }
+    .goodswrap1{
+        float: left;
+        border-top: solid;
+        border-width: thin;
+    }
+    .title{
+        text-align: center;
+    }
+    .goodswrap2{
+        float: left;
+        border-top: solid;
+        color:red;
+        border-top-color: gray;
+        border-width: thin;
+    }
+    .goodswrap3{
+        float: left;
+        border-top: solid;
+        border-width: thin;
+    }
+    .left{
+        float:left;
+        width:50px;
+    }
+    .right{float: left;
+        float:right;
+        width:126px;
+        text-align: right;
+    }
+    .page{
+        float:left;
+        margin:0 auto;
+        text-align: center;
+        width:100%;
+    }
+    .page ul li{
+        display: inline-block;
+        list-style:none;
+    }
+	.page a{
+		color: black;
+		text-decoration: none;
+		font-size: 21px;
+		margin: 5px;
+	}
+	.pageActive{
+		color : #0058bf!important;
+	}

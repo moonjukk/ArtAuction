@@ -1,0 +1,109 @@
+  #wrap{
+            width: 70%;
+            max-width: 600px;
+            min-width: 600px;
+            margin: auto;
+            background-color: rgb(255, 247, 244);
+        }
+        .pan{
+            width: 100%;
+        }
+        #logo{
+           font-size: 55px;
+           text-align: center;
+           padding-top: 40px;
+           padding-bottom: 20px;
+           font-family: 'Reenie Beanie', cursive;
+       }
+
+       #selectBox #selected2{
+            float: left;
+            text-align: center;
+            width: 50%;
+            padding-top: 18px;
+            height: 58px;
+            font-weight: 800;
+            font-size: 18px;
+           
+       }
+       .active{
+            background-color: #001C3C;
+            color: white;
+       }
+   
+       #selectedZone2{
+            width: 90%;
+            margin: auto;
+       }
+
+        #submitBtn{
+            background-color: #001C3C;
+            border: none;
+            display: block;
+            width: 80%;
+            height: 60px;
+            margin: auto;
+            margin-top: 60px;
+            margin-bottom: 15px;
+            color: white;
+            font-size: 20px;
+        }
+
+
+        #findInfo{
+            margin-left: 50px;
+            padding-bottom: 25px;
+            padding-top: 30px;
+        }
+        #findInfo h4{
+            margin-top: 30px;
+            font-weight: 600;
+        }
+        #findInfo p{
+            font-size: 12px;
+        }
+
+        .findInput{
+            width: 100%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .findInput p{
+            float: left;
+            width: 100px;
+            margin-left: 50px;
+            padding-top: 5px;
+        }
+        .findInput input, select{
+            width: 320px;
+            height: 30px;
+            border: 1px solid rgb(185, 185, 185);
+            font-size: 12px;
+            padding-left: 7px;
+            margin-left : 10px;
+        }
+        .findInput span{
+            width: 30px;
+            border: 1px solid rgb(185, 185, 185);
+            margin-left: 5px;
+            font-size: 12px;
+            padding-left: 7px;
+            padding-right: 7px;
+            padding-top: 7px;
+            padding-bottom: 7px;
+            cursor: pointer;
+        }
+        .findInput span:hover{
+            background-color: rgb(235, 235, 235);
+        }
+        
+        .alert{
+        	margin-top : 0px;
+        	margin-bottom : 0px;
+        	padding-top : 0px;
+        	padding-bottom : 0px;
+        }
+        
+        #logo{
+        	cursor:pointer;
+        }

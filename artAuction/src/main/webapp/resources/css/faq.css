@@ -1,0 +1,242 @@
+
+       	#wrapFaq {
+			padding: 0px;
+           	margin: 0px;
+           	box-sizing: border-box;  
+           	width: 1200px;
+           	margin: 0 auto;
+           	margin-top: 100px;
+       	}
+
+		.searchFaqContainer {
+			padding: 0px;
+            margin: 0px;
+           	box-sizing: border-box;  
+           	background-color: #F7F7F7;
+      	    list-style-type: none;
+       	  	height: 130px;
+           	border: 1px solid rgb(209, 206, 206);
+           	display: flex;
+           	justify-content: center;
+           	align-items: center;
+       	}
+
+       	.search {
+        	padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;  
+           	width: 700px;
+           	height: 40px;
+           	border-radius: 3px;
+           	border: 1px solid rgb(209, 206, 206);
+           	padding-left: 10px;
+       	}
+
+       .searchFaqText {
+        padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;  
+           width: 90%;
+           padding-left: 5px;
+           border: 0px;
+           float: left;
+           outline: none;
+           height: 100%;
+       }
+       
+       .searchFaqContainer li {
+        padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;  
+           margin: 5px 0;
+       }
+
+       .searchFaqButton {
+        padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;  
+           width: 10%;
+           height: 100%;
+           float: right;
+           outline: none;
+           background-color: #001C3C;
+           color: white;
+           border: none;
+           cursor:pointer;
+       }
+
+       .searchFaqButton:hover{
+           background-color: #001124;
+           color: white;
+       }
+
+       .quickSearch {
+        	padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;  
+           display: flex;
+       }
+
+       #wrapFaq .navFaq {
+        padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;  
+           margin-top: 30px;
+           display: flex;
+           list-style-type: none;
+       }
+
+       #wrapFaq .navFaq div {
+        padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;  
+           text-align: center;
+           width: 171px;
+           height: 50px;
+           line-height: 50px;
+           border-top: 1px solid rgb(209, 206, 206);
+           border-right: 1px solid rgb(209, 206, 206);
+           border-bottom: 1px solid #ded8d8;
+           cursor: pointer;
+       }
+       #wrapFaq .navFaq div:hover{
+       		background-color:#E7EAED;
+       }
+       
+       .borderLeft { 
+        padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;          
+           border-left: 1px solid rgb(209, 206, 206);          
+       }
+
+       .activeNavFaq {
+        padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;  
+           border: 1px solid #001C3C !important;
+           border-bottom: none !important;
+       }
+
+       .mainContentContainer {
+        padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;  
+           margin-top: 30px;
+           border-top: 1px solid black;
+           padding-top: 10px;
+           
+       }
+
+       .topContent {
+        padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;  
+           list-style-type: none;
+           display: flex;
+           border-bottom: 1px solid rgb(209, 206, 206);
+           height: 30px;
+       }
+
+       .mainContentNumber {
+        padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;  
+           width: 5%;
+           text-align: center;
+       }
+
+       .mainContentCategory {
+        padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;  
+           width: 15%;
+           text-align: center;
+       }
+
+       .mainContentTitle {
+        padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;  
+           width: 80%;
+           text-align: center;
+       }
+
+       .contentContainer {
+        padding: 10px;
+            margin: 0px;
+            box-sizing: border-box;  
+           list-style-type: none;
+           display: none;
+           border-bottom: 1px solid rgb(209, 206, 206);
+           width:100%
+           line-height: 35px;
+           cursor:pointer;
+       }
+
+       .contentContainer:hover {
+           background-color: rgb(235, 235, 235);
+       }
+
+       .contentContainerActivity {
+        background-color: rgb(235, 235, 235);
+       }
+
+       .contentNumber {
+        padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;  
+           width: 5%;
+           text-align: center;
+       }
+
+       .contentCategory {
+        padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;  
+           width: 15%;
+           text-align: center;
+       }
+
+       .contentTitle {
+        padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;  
+           width: 80%;
+           text-align: center;
+       }
+
+       .contentActivity {
+       display:flex !important;
+       }
+
+       .quickSearch div {
+        padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;
+            margin-right: 5px;  
+           cursor: pointer;
+       }
+
+       .quickSearch div:hover {
+           color: #001124;
+       }
+
+       .contentDetail {
+        padding: 0px;
+         margin: 0px;
+            box-sizing: border-box;  
+           width:100%;
+           padding-left: 20%;
+           list-style-type: none;
+           border-bottom: 1px solid rgb(209, 206, 206);
+           line-height: 35px;  
+           display:none;
+           background-color: rgb(235, 235, 235);
+           word-break:break-all;
+       }
+       
+       .navActivity{
+       	display:flex !important;
+       }
+       

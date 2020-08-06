@@ -1,0 +1,159 @@
+		body{
+          margin: 0 !important;
+          padding:0 !important;
+        }
+        #registerPage .wrap{        
+            width: 1000px;
+            margin: auto;
+            margin-top: 70px;
+        }
+        #registerPage hr{
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        #registerPage form > ul{
+            list-style: none;
+            font-size: 15px;
+        }
+        #registerPage .leftForm{
+            float: left;
+            height: 26px;
+            width: 110px;
+            padding-top: 6px;
+            padding-right: 10px;
+            border: 1px solid rgb(138, 138, 138);
+            border-right: none !important;
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+            text-align: right;
+            color: white;
+            /*background-color: #001C3C;*/
+            background: linear-gradient( 45deg, #254d7a, #062549 );
+        }
+        #registerPage #banner{
+            position: absolute;
+            margin-left: 50px;
+        }
+        #registerPage .rightForm{
+
+        }
+        #registerPage .rightForm input{
+            width: 593px;
+            height: 34px;
+            border: 1px solid rgb(138, 138, 138);
+            padding: 5px;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+            font-size: 15px;
+            padding-left: 15px;
+        }
+        #registerPage .rightForm select{
+            width: 232px;
+            height: 34px;
+            border: 1px solid rgb(138, 138, 138);
+            padding: 5px;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+            font-size: 16px;
+        }
+        #registerPage select[name='category']{
+            width: 615px;
+        }
+        #registerPage .centerForm{
+
+        }
+        #registerPage .moneyBox{
+            width: 232px !important;
+        }
+        #registerPage #dragFileZone{
+            width: 570px;
+            height: 150px;
+            margin-left: 122px;
+            padding: 5px !important;
+            padding-left: 8px !important;
+            border: 1px solid rgb(138, 138, 138);
+            background-color: rgb(224, 224, 224);
+            border-bottom-left-radius: 8px;
+            border-top: none;
+            color: rgb(70, 70, 70);
+            overflow-y: scroll;
+        }
+        #registerPage #dragFileZone span{
+            float: right;
+            background-color: rgb(255, 255, 255);
+            padding: 5px;
+            border: 1px solid rgb(168, 168, 168);
+            border-radius: 4px;
+        }
+        #registerPage #dragFileZone div{
+            width: 100%;
+            height: 27px;
+            padding-top: 3px;
+            border-bottom: 1px solid rgb(163, 163, 163);
+        }
+        #registerPage #dragFileZone div a{
+        	text-decoration: none;
+            color: #001C3C;
+            cursor: pointer;
+        }
+        #registerPage #dragZoneOpen{
+            margin-left: 5px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #001C3C;
+        }
+        #registerPage .fa-images{
+            margin-left: 5px;
+            margin-right: 9px;
+            padding-top: 3px;
+            color: #001C3C;
+        }
+        #registerPage .fa-times-circle{
+            margin-left: 6px;
+            padding-top: 3px;
+        }
+        #registerPage .fa-times-circle:hover{
+        	color: black;
+        }
+        #registerPage .fileDeleteBtn{
+            cursor: pointer;
+        }
+        #registerPage textarea{
+            width: 595px;
+            min-width: 595px;
+            max-width: 595px;
+            height: 200px;
+            min-height: 200px;
+            max-height: 200px;
+            padding: 10px;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+        #registerPage .inputInfo{
+            margin-left: 130px;
+            font-size: 12px;
+        }
+        #registerPage .closeBtn{
+            cursor: pointer;
+        }
+        #registerPage input[type='submit']{
+            background-color: #001C3C;
+            width: 746px;
+            height: 60px;
+            margin-top: 30px;
+            border-radius: 10px;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #registerPage input[type='submit']:hover{
+            background-color: #001124;
+        }
+        #registerPage .error{
+            background-color: rgb(255, 213, 213);
+        }
+        #registerPage .hidden{
+            display: none;
+        }

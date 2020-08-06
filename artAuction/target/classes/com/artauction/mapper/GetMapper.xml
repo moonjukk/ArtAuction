@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.artauction.mapper.GetMapper">
+
+
+	<!-- gno 번호로 상품정보 긁어오기 -->
+	<select id="read" resultType="com.artauction.domain.GoodsVO">
+		select * from tb_goods where gno = #{gno}
+	</select>
+
+	<!-- get page의 입찰자 수 구하기 -->
+	<select id="countBidder" resultType="int">
+		select count(userid) from tb_trade where gno= #{gno}
+	</select>
+
+	<!-- get page의 현재 최고가(?) 입찰자 구하기 -->
+	<select id="highBidder" resultType="string">
+
+		select userid
+		from(
+		select userid from tb_trade where gno= #{gno} order by tdate desc
+		)
+		where rownum = 1
+	</select>
+
+	<!-- 시작시간(startDate)구하기 -->
+
+	<select id="startTime" resultType="string">
+
+		select to_char(startdate, 'YYYY-MM-DD')from tb_goods where gno=#{gno}
+
+	</select>
+
+	
+	<!-- 종료시간(endDate)구하기 -->
+	<!-- HH뒤에 24를 작성해줘야 24시간 표기가 가능해짐 -->
+
+	<select id="endTime" resultType="string">
+
+		select to_char(enddate, 'YYYY-MM-DD HH24:MI:SS')from tb_goods where
+		gno=#{gno}
+
+	</select>
+
+
+	<!-- 입찰하기 (modal에서 입찰하기 버튼 누를 때 insert. tprice는 현재최고가 + 1000원) -->
+	<insert id="bidPriceInsert">
+		insert into tb_trade(gno, userid, tprice)
+		values
+		(#{gno}, #{userid},#{tprice}+1000)
+	</insert>
+
+
+	<!-- 입찰하려는 가격과 동일한 가격이 있는지 확인!! -->
+   <select id="bidPriceCheck" resultType="Integer">
+      select tprice
+      from(
+      select tprice from tb_trade where gno=#{gno} order by tprice desc
+      )
+      where rownum = 1
+   </select>
+
+
+
+	<!-- 썸네일 가져오기 -->
+	<select id="thumbnailImg" resultType="com.artauction.domain.ImageVO">
+		select * from tb_image where gno=#{gno} and thumbnail=1
+	</select>
+	
+	
+	<!-- 썸네일 제외한 일반 이미지들 가져오기 -->
+	<select id="findImg" resultType="com.artauction.domain.ImageVO">
+		select * from tb_image where gno=#{gno} and thumbnail=0
+	</select>
+
+
+	<!-- 등록된 이미지 갯수 -->
+  	<select id="cntImg" resultType="int">
+        select count(*) from tb_image where gno=#{gno}
+    </select>
+
+
+	<!-- 모든 goods 중에 거래종료되었으나 flag가 0인것만 가져오기 -->
+    <select id="successBidGoods" resultType="com.artauction.domain.GoodsVO">
+	    <![CDATA[
+			select gno, registeruserid, userid as buyinguserid, tprice as tradeprice, temp
+			from(
+			    select a.gno, a.tprice, a.registeruserid, b.userid, MAX(b.tprice) temp
+			    from(
+			    select g.gno, g.enddate, g.registeruserid, MAX(t.tprice) tprice
+			    from tb_goods g, tb_trade t
+			    where g.gno = t.gno(+) 
+			        and g.enddate < sysdate
+			        and g.flag = '0'
+			    group by g.gno, g.enddate, g.registeruserid
+			    order by g.gno
+			    )a, tb_trade b
+			    where a.gno = b.gno(+)
+			    group by  a.gno, a.tprice, a.registeruserid, b.userid
+			)
+			where tprice = temp
+		]]>
+	</select> 
+
+
+
+	<!-- 낙찰자가 없는 경우는 (flag=0인 경우)-->
+	<select id="failBidGoods" resultType="com.artauction.domain.GoodsVO">
+	 <![CDATA[
+		select gno, tprice as tradeprice
+		from(
+		    select g.gno, t.tprice
+		    from tb_goods g, tb_trade t
+		    where g.gno = t.gno(+)
+		        and g.enddate < sysdate
+		        and g.flag = '0'
+		)
+		where tprice is null
+		]]>
+	</select>
+	
+
+	<update id="tradeSuccess" parameterType="java.util.List">
+		<!-- <foreach item="temp" index="index" collection="list" separator=";" open="DECLARE BEGIN" close="; END;" >  -->
+		<foreach  item="temp" collection="list"  index="index" separator=";" open="DECLARE BEGIN" close="; END;" >
+			update tb_goods set flag='1', buyinguserid=#{temp.buyinguserid}, tradeprice=#{temp.tradeprice} where gno=#{temp.gno}
+		</foreach>
+	</update>
+
+
+	<update id="tradeFail" parameterType="java.util.List">
+		<foreach item="temp" index="index" collection="list" separator=";" open="DECLARE BEGIN" close="; END;" >  
+			update tb_goods set flag='d' where gno=#{temp.gno}
+		</foreach>
+	</update>
+
+
+	<insert id="inquireInput">
+		<selectKey keyProperty="rno" order="BEFORE" resultType="int">
+			select seq_tb_goodsquestion.nextval from dual
+		</selectKey>
+		insert into tb_goodsquestion(rno, gno, replyerid, reply, parentno, depth)
+		values(#{rno}, #{gno}, #{replyerid}, #{reply}, #{rno}, #{depth})
+	</insert>
+	
+	<insert id="inquireReply">
+		<selectKey keyProperty="rno" order="BEFORE" resultType="int">
+			select seq_tb_goodsquestion.nextval from dual
+		</selectKey>
+		insert into tb_goodsquestion(rno, gno, replyerid, reply, parentno, depth)
+		values(#{rno}, #{gno}, #{replyerid}, #{reply}, #{parentno}, #{depth})
+	</insert>
+	
+	<select id="inquireOutput" resultType="com.artauction.domain.InquireVO">
+		select * 
+		from tb_goodsquestion
+		where gno=#{gno}
+		order by parentno asc, depth asc, replydate asc
+	</select>
+	
+	
+	<!-- 즉시구매 관련 메소드 -->
+	<select id="checkFlag" resultType="int">
+		select count(*) from tb_goods where gno=#{gno} and flag='0'
+	</select>
+	
+	<update id="nowBuy">
+		update tb_goods
+		set flag='1', buyinguserid=#{userid}, tradeprice=#{tprice}, enddate=sysdate
+		where gno=#{gno}
+	</update>
+	
+	
+	
+	<!-- 카테고리 명 구하기 -->
+	<select id="getCategoryName" resultType="String">
+		select categoryname from tb_category where categoryid=#{categoryid}
+	</select>
+	
+</mapper>

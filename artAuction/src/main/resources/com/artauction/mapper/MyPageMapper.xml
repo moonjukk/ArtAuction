@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+  <mapper namespace="com.artauction.mapper.MyPageMapper">
+  
+   <!-- ====================================================== -->
+   <!-- 마이페이지  -->
+   <!-- ====================================================== -->
+  
+  <!-- user가 응찰한 상품에 대한 정보 가져오기 -->
+  	<select id="userTradeGoodsInfo" resultType="com.artauction.domain.MypageVO">
+	 <![CDATA[
+	  	select tradeinfo.gno, goods.gname, goods.enddate, goods.flag, tradeinfo.nowprice, tradeinfo.userid, tradeinfo.tprice, image.uuid, image.uploadpath, image.filename, image.thumbnail
+		from (
+		        select *
+		        from (
+		                select ttnowprice.gno, ttnowprice.nowprice,  tb_trade.userid, tb_trade.tprice, row_number() over (partition by tb_trade.gno order by tb_trade.tprice desc) as rankno
+		                from (select *
+		                                 from (
+		                                    select gno, tprice as nowprice, row_number() over (partition by gno order by tprice desc) as rankNo from tb_trade
+		                                    )
+		                                where rankno = 1) ttnowprice
+		                inner join tb_trade
+		                on (ttnowprice.gno = tb_trade.gno and userid=#{userid})
+		                order by ttnowprice.gno)
+		        where rankno=1
+		    ) tradeinfo, tb_goods goods, tb_image image
+		where tradeinfo.gno = goods.gno
+		and goods.gno = image.gno
+		and goods.flag='0'
+		and image.thumbnail=1
+	  	]]>
+  	</select>
+  	
+  
+  <!-- 구매현황 정보들 가져오기 -->
+  <!-- flag가 0이 아닌건 모두 가져오기 -->
+  	<select id="userBuyingGoodsInfo" resultType="com.artauction.domain.MypageBuyingVO">
+	  	select goods.gno, goods.categoryid, goods.registeruserid, goods.gname, goods.startprice, goods.startdate, goods.enddate, goods.flag, goods.buyinguserid, goods.tradeprice, image.thumbnail, image.filename, image.uuid, image.uploadpath
+		from tb_goods goods, tb_image image
+		where goods.gno = image.gno
+		and goods.buyinguserid=#{buyinguserid}
+		and goods.flag not in ('0','a','b','c')
+		and image.thumbnail='1'
+		order by goods.flag asc
+  	</select>
+  
+  <!-- 구매현황 중 입금대기 상태(flag 1,2,3)만 뽑아오기 -->
+  <select id="buyWait" resultType="com.artauction.domain.MypageBuyingVO">
+	  select goods.gno, goods.categoryid, goods.registeruserid, goods.gname, goods.startprice, goods.startdate, goods.enddate, goods.flag, goods.buyinguserid, goods.tradeprice, image.thumbnail, image.filename, image.uuid, image.uploadpath
+	    from tb_goods goods, tb_image image
+	    where goods.gno = image.gno
+	    and goods.buyinguserid=#{buyinguserid}
+	    and goods.flag in ('1','2','3')
+	    and image.thumbnail='1'
+	    order by goods.flag asc
+  </select>
+  
+  <!-- 구매현황 중 거래중 상태(flag 4,5,6)만 뽑아오기 -->
+    <select id="buyTrading" resultType="com.artauction.domain.MypageBuyingVO">
+	  select goods.gno, goods.categoryid, goods.registeruserid, goods.gname, goods.startprice, goods.startdate, goods.enddate, goods.flag, goods.buyinguserid, goods.tradeprice, image.thumbnail, image.filename, image.uuid, image.uploadpath
+	    from tb_goods goods, tb_image image
+	    where goods.gno = image.gno
+	    and goods.buyinguserid=#{buyinguserid}
+	    and goods.flag in ('4','5','6')
+	    and image.thumbnail='1'
+	    order by goods.flag asc
+  </select>
+  
+  <!-- 구매현황 중 거래완료(flag 7)만 뽑아오기 -->
+    <select id="buySuccess" resultType="com.artauction.domain.MypageBuyingVO">
+	  select goods.gno, goods.categoryid, goods.registeruserid, goods.gname, goods.startprice, goods.startdate, goods.enddate, goods.flag, goods.buyinguserid, goods.tradeprice, image.thumbnail, image.filename, image.uuid, image.uploadpath
+	    from tb_goods goods, tb_image image
+	    where goods.gno = image.gno
+	    and goods.buyinguserid=#{buyinguserid}
+	    and goods.flag in ('7')
+	    and image.thumbnail='1'
+	    order by goods.flag asc
+  </select>
+  
+   <!-- 구매현황 중 거래취소 상태(flag a,b,c)만 뽑아오기 -->
+    <select id="buyCancel" resultType="com.artauction.domain.MypageBuyingVO">
+	  select goods.gno, goods.categoryid, goods.registeruserid, goods.gname, goods.startprice, goods.startdate, goods.enddate, goods.flag, goods.buyinguserid, goods.tradeprice, image.thumbnail, image.filename, image.uuid, image.uploadpath
+	    from tb_goods goods, tb_image image
+	    where goods.gno = image.gno
+	    and goods.buyinguserid=#{buyinguserid}
+	    and goods.flag in ('a','b','c')
+	    and image.thumbnail='1'
+	    order by goods.flag asc
+  </select>
+  
+  
+  <!-- 구매현황 중 flag 1,2,3인것만 가져오기 -->
+  <select id="buyWaitCount" resultType="int">
+  	select count(*) from tb_goods	where buyinguserid=#{buyinguserid} and flag in ('1','2','3')
+  </select>
+  
+  <!-- 구매현황 중 flag 4,5,6인것만 가져오기 -->
+  <select id="buyTradingCount" resultType="int">
+  	select count(*) from tb_goods	where buyinguserid=#{buyinguserid} and flag in ('4','5','6')
+  </select>
+  
+  <!-- 구매현황 중 flag 7 인것만 가져오기  -->
+  <select id="buysuccessCount" resultType="int">
+  select count(*) from tb_goods	where buyinguserid=#{buyinguserid} and flag in ('7')
+  </select>
+  
+  <!-- 구매현황 중 flag a,b,c 인것만 가져오기 -->
+  <select id="buyCancelCount" resultType="int">
+  select count(*) from tb_goods	where buyinguserid=#{buyinguserid} and flag in ('a','b','c')
+  </select>
+  
+  
+   <!-- ====================================================== -->
+  
+  
+  	<!-- 판매현황 정보를 가져오기 -->
+  	<select id="userSellGoodsInfo" resultType="com.artauction.domain.MypageBuyingVO">
+	  	<![CDATA[
+ 				select tg.gno, tg.categoryid, tg.registeruserid, tg.gname, MAX(tt.tprice) nowprice, tg.startdate, tg.enddate, tg.flag, tg.buyinguserid, tg.tradeprice, ti.uploadpath, ti.filename, ti.uuid, ti.thumbnail
+            	 from tb_goods tg, tb_image ti, tb_trade tt 
+                 where tg.gno = ti.gno(+) and tg.gno = tt.gno(+) and ti.thumbnail = '1' and tg.registeruserid=#{registeruserid} and tg.flag not in ('a','b','c','d')
+            	 group by tg.gno, tg.categoryid, tg.registeruserid, tg.gname, tg.startdate, tg.enddate, tg.flag, tg.buyinguserid,tg.tradeprice, ti.uploadpath, ti.filename, ti.uuid, ti.thumbnail
+            	 order by tg.flag asc
+  		]]>
+  	</select>
+  	
+  	<!-- 판매 중인 정보만(flag 0) 가져오기 -->
+  	<select id="selling" resultType="com.artauction.domain.MypageBuyingVO">
+  		<![CDATA[
+  				select tg.gno, tg.categoryid, tg.registeruserid, tg.gname, MAX(tt.tprice) nowprice, tg.startdate, tg.enddate, tg.flag, tg.buyinguserid, tg.tradeprice, ti.uploadpath, ti.filename, ti.uuid, ti.thumbnail
+            	 from tb_goods tg, tb_image ti, tb_trade tt 
+                 where tg.gno = ti.gno(+) and tg.gno = tt.gno(+) and ti.thumbnail = '1' and tg.registeruserid=#{registeruserid} and tg.flag in ('0')
+            	 group by tg.gno, tg.categoryid, tg.registeruserid, tg.gname, tg.startdate, tg.enddate, tg.flag, tg.buyinguserid,tg.tradeprice, ti.uploadpath, ti.filename, ti.uuid, ti.thumbnail
+            	 order by tg.flag asc
+       	 ]]>
+  	</select>
+  	
+  	
+  	<!-- 입금 대기중인 정보만(flag 1,2,3) 가져오기 -->
+  	<select id="sellWait" resultType="com.artauction.domain.MypageBuyingVO">
+  		<![CDATA[
+  				select tg.gno, tg.categoryid, tg.registeruserid, tg.gname, MAX(tt.tprice) nowprice, tg.startdate, tg.enddate, tg.flag, tg.buyinguserid, tg.tradeprice, ti.uploadpath, ti.filename, ti.uuid, ti.thumbnail
+            	 from tb_goods tg, tb_image ti, tb_trade tt 
+                 where tg.gno = ti.gno(+) and tg.gno = tt.gno(+) and ti.thumbnail = '1' and tg.registeruserid=#{registeruserid} and tg.flag in ('1','2','3')
+            	 group by tg.gno, tg.categoryid, tg.registeruserid, tg.gname, tg.startdate, tg.enddate, tg.flag, tg.buyinguserid,tg.tradeprice, ti.uploadpath, ti.filename, ti.uuid, ti.thumbnail
+            	 order by tg.flag asc
+       	 ]]>
+  	</select>
+  	
+ 	<!-- 거래 중인 정보만(flag 4,5,6) 가져오기 -->
+  	<select id="sellTrading" resultType="com.artauction.domain.MypageBuyingVO">
+  		<![CDATA[
+  				select tg.gno, tg.categoryid, tg.registeruserid, tg.gname, MAX(tt.tprice) nowprice, tg.startdate, tg.enddate, tg.flag, tg.buyinguserid, tg.tradeprice, ti.uploadpath, ti.filename, ti.uuid, ti.thumbnail
+            	 from tb_goods tg, tb_image ti, tb_trade tt 
+                 where tg.gno = ti.gno(+) and tg.gno = tt.gno(+) and ti.thumbnail = '1' and tg.registeruserid=#{registeruserid} and tg.flag in ('4','5','6')
+            	 group by tg.gno, tg.categoryid, tg.registeruserid, tg.gname, tg.startdate, tg.enddate, tg.flag, tg.buyinguserid,tg.tradeprice, ti.uploadpath, ti.filename, ti.uuid, ti.thumbnail
+            	 order by tg.flag asc
+       	 ]]>
+  	</select>
+  	
+  	<!-- 거래 완료한 정보만(flag 7) 가져오기 -->
+  	<select id="sellSuccess" resultType="com.artauction.domain.MypageBuyingVO">
+  		<![CDATA[
+  				select tg.gno, tg.categoryid, tg.registeruserid, tg.gname, MAX(tt.tprice) nowprice, tg.startdate, tg.enddate, tg.flag, tg.buyinguserid, tg.tradeprice, ti.uploadpath, ti.filename, ti.uuid, ti.thumbnail
+            	 from tb_goods tg, tb_image ti, tb_trade tt 
+                 where tg.gno = ti.gno(+) and tg.gno = tt.gno(+) and ti.thumbnail = '1' and tg.registeruserid=#{registeruserid} and tg.flag in ('7')
+            	 group by tg.gno, tg.categoryid, tg.registeruserid, tg.gname, tg.startdate, tg.enddate, tg.flag, tg.buyinguserid,tg.tradeprice, ti.uploadpath, ti.filename, ti.uuid, ti.thumbnail
+            	 order by tg.flag asc
+       	 ]]>
+  	</select>
+  	
+  	<!-- 거래 취소한 정보만(flag a,b,c) 가져오기 -->
+  	<select id="sellCancel" resultType="com.artauction.domain.MypageBuyingVO">
+  		<![CDATA[
+  				select tg.gno, tg.categoryid, tg.registeruserid, tg.gname, MAX(tt.tprice) nowprice, tg.startdate, tg.enddate, tg.flag, tg.buyinguserid, tg.tradeprice, ti.uploadpath, ti.filename, ti.uuid, ti.thumbnail
+            	 from tb_goods tg, tb_image ti, tb_trade tt 
+                 where tg.gno = ti.gno(+) and tg.gno = tt.gno(+) and ti.thumbnail = '1' and tg.registeruserid=#{registeruserid} and tg.flag in ('a','b','c')
+            	 group by tg.gno, tg.categoryid, tg.registeruserid, tg.gname, tg.startdate, tg.enddate, tg.flag, tg.buyinguserid,tg.tradeprice, ti.uploadpath, ti.filename, ti.uuid, ti.thumbnail
+            	 order by tg.flag asc
+       	 ]]>
+  	</select>
+  	
+  	<!-- 거래 유찰된 정보만(flag d) 가져오기 -->
+  	<select id="sellFail" resultType="com.artauction.domain.MypageBuyingVO">
+  		<![CDATA[
+  				select tg.gno, tg.categoryid, tg.registeruserid, tg.gname, MAX(tt.tprice) nowprice, tg.startdate, tg.enddate, tg.flag, tg.buyinguserid, tg.tradeprice, ti.uploadpath, ti.filename, ti.uuid, ti.thumbnail
+            	 from tb_goods tg, tb_image ti, tb_trade tt 
+                 where tg.gno = ti.gno(+) and tg.gno = tt.gno(+) and ti.thumbnail = '1' and tg.registeruserid=#{registeruserid} and tg.flag in ('d')
+            	 group by tg.gno, tg.categoryid, tg.registeruserid, tg.gname, tg.startdate, tg.enddate, tg.flag, tg.buyinguserid,tg.tradeprice, ti.uploadpath, ti.filename, ti.uuid, ti.thumbnail
+            	 order by tg.flag asc
+       	 ]]>
+  	</select>	
+  	
+  	
+  <!-- 판매현황 중 flag0인것만 가져오기 -->
+  <select id="sellingCount" resultType="int">
+  	select count(*) from tb_goods	where registeruserid=#{registeruserid} and flag in ('0')
+  </select>
+  
+  
+  <!-- 판매현황 중 flag1,2,3인것만 가져오기 -->
+  <select id="sellWaitCount" resultType="int">
+  	select count(*) from tb_goods	where registeruserid=#{registeruserid} and flag in ('1','2','3')
+  </select>
+  
+    <!-- 판매현황 중 flag4,5,6인것만 가져오기 -->
+  <select id="sellTradingCount" resultType="int">
+  	select count(*) from tb_goods	where registeruserid=#{registeruserid} and flag in ('4','5','6')
+  </select>
+  
+    <!-- 판매현황 중 flag7인것만 가져오기 -->
+  <select id="sellSuccessCount" resultType="int">
+  	select count(*) from tb_goods	where registeruserid=#{registeruserid} and flag in ('7')
+  </select>
+  
+    <!-- 판매현황 중 flag a,b,c 인것만 가져오기 -->
+  <select id="sellCancelCount" resultType="int">
+  	select count(*) from tb_goods	where registeruserid=#{registeruserid} and flag in ('a','b','c')
+  </select>
+  
+  <!-- flag d만 가져오기 -->
+   <select id="sellFailCount" resultType="int">
+  select count(*) from tb_goods	where registeruserid=#{registeruserid} and flag in ('d')
+  </select> 
+  
+  
+  
+  
+   <!-- ====================================================== -->
+   <!-- 회원정보 변경 내용  -->
+   <!-- ====================================================== -->
+ 
+  <!-- user 정보 긁어오기 -->
+	<select id="info" resultType="com.artauction.domain.UserVO">
+		select * from tb_user where userid = #{userid}
+	</select>
+
+	<update id="updateInfo">
+		update tb_user set pw=#{pw}, userphonenum=#{userphonenum}, bankaccount=#{bankaccount}, bankname=#{bankname} where userid = #{userid}
+	</update>  
+  
+  
+</mapper>

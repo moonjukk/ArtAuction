@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.artauction.mapper.DealMapper">
+  
+	<select id="findByGno" resultType="com.artauction.domain.GoodsVO">
+  		select * from tb_goods where gno = #{gno} 
+  	</select>
+  	
+  	
+  	<select id="findThumbImageByGno" resultType="com.artauction.domain.ImageVO">
+  		select * from tb_image where gno = #{gno} and thumbnail=1
+  	</select>
+  	<select id="findImageByGno" resultType="com.artauction.domain.ImageVO">
+  		select * from tb_image where gno = #{gno} and thumbnail=0
+  	</select>
+  
+  
+  	<!-- 시작시간(startDate)구하기 -->
+	
+	<select id="getStartTime" resultType="string">
+		select to_char(startdate, 'YYYY-MM-DD') as startdate from tb_goods where gno=#{gno}
+	</select>
+	
+ 	<!-- 종료시간(endDate)구하기 -->
+	<select id="getEndTime" resultType="string">
+		select to_char(enddate, 'YYYY-MM-DD HH24:MI:SS') as enddate from tb_goods where gno=#{gno}
+	</select>
+  	
+ 	<!-- 경매참여인원 구하기 -->
+	<select id="getBiddingCount" resultType="int">
+		select count(*) from tb_trade where gno=#{gno}
+	</select>
+	
+	<!-- 판매자 개인정보 -->
+	<select id="getSalerInfo" resultType="com.artauction.domain.UserVO">
+  		select * from tb_user where userid = (select registeruserid from tb_goods where gno=#{gno})
+  	</select>
+	<!-- 구매자 개인정보 -->
+	<select id="getBuyerInfo" resultType="com.artauction.domain.UserVO">
+  		select * from tb_user where userid = (select buyinguserid from tb_goods where gno=#{gno})
+  	</select>
+  	
+  	<!-- 등록된 이미지 갯수 -->
+	<select id="cntImg" resultType="int">
+  		select count(*) from tb_image where gno=#{gno}
+  	</select>
+	
+	<!-- 거래상태 flag 업데이트 -->
+	<update id="updateFlag">
+		update tb_goods set flag=#{flag} where gno=#{gno}
+	</update>
+	
+  </mapper>
+  

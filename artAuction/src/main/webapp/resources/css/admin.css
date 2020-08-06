@@ -1,0 +1,259 @@
+*{
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        body{
+            width: 1400px;
+            height: 1000px;
+            background-color: rgb(230, 230, 230);
+        }
+        
+        .hidden{
+        	display: none;
+        }
+        
+        #admin_nav{
+            float: left;
+            background-color: #343A40;
+            height: 100%;
+            width: 250px;
+        }
+        #admin_logo{
+            height: 50px;
+            font-family: 'Reenie Beanie', cursive;
+            font-size: 35px;
+            margin-top: 25px;
+            color: rgb(231, 231, 231);
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+        }
+        #admin_who{
+            color: white;
+            width: 100%;
+            height: 40px;
+            text-align: center;
+            padding-top: 15px;
+            margin: auto;
+        }
+
+
+        .admin_nav_borderBottom{
+            border-bottom: 1px solid rgb(180, 180, 180);
+            width: 90% !important;
+            margin: auto;
+        }
+        .admin_nav_icon{
+            font-size: 30px;
+            color: white;
+            position: absolute;
+            margin-top: -3px;
+            margin-left: -40px;
+
+        }
+        #admin_nav_selector_zone{
+            margin-top: 10px;
+        }
+
+        .admin_nav_selector{
+            width: 80%;
+            height: 35px;
+            color: rgb(216, 216, 216);
+            background-color: #343A40;
+            margin: auto;
+            margin-top: 10px;
+            border-radius: 10px;
+            padding-top: 10px;
+            padding-left: 15px;
+            cursor: pointer;
+        }
+        .admin_nav_selector:hover{
+            background-color: rgb(195, 214, 205);
+            color: #343A40;
+        }
+        
+        .icons{
+            position: absolute;
+            font-size: 20px;
+            padding-top: 1px;
+        }
+        #admin_nav_selector_zone span{
+            padding-left: 38px;
+        }
+
+        .selected{
+            color: black !important;
+            background-color: rgb(255, 255, 255) !important;
+
+        }
+
+
+
+
+        .admin_contentZone{
+            float: left;
+            height: 940px;
+            width: 1000px;
+            background-color: rgb(230, 230, 230);
+            padding : 30px;
+            color: #343A40;
+        }
+        .admin_contentZone hr{
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        .admin_contentZone ul{
+            width: 1000px;
+            margin-top: 30px;
+        }
+        .admin_contentZone ul li{
+            list-style: none;
+            float: left;
+            width: 16%;
+            height: 30px;
+            border-bottom: 1px solid #343A40;
+            border-right: 1px solid #343A40;
+            text-align: center;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+        .borderLeft{
+            border-left: 1px solid #343A40;
+        }
+        .borderTop{
+            border-top: 1px solid #343A40;
+        }
+
+        #admin_manage_member_box{
+            width: 100%;
+            height: 130px;
+        }
+        .admin_member_inputzone{
+            width: 100%;
+            height: 35px;
+            margin-bottom: 15px;
+        }
+        .admin_member_leftBox{
+            float: left;
+            width: 10%;
+            height: 75%;
+            text-align: right;
+            font-size: 18px;
+            padding-top: 15px;
+            padding-right: 10px;
+        }
+        .admin_member_rightBox{
+            float: left;
+            width: 75%;
+        }
+        .admin_member_rightBox input{
+            margin-left: 10px;
+            margin-top: 12px;
+            height: 30px;
+            width: 260px;
+            padding-left: 15px;
+        }
+        .admin_member_rightBox button{
+            margin-left: 10px;
+            height: 37px;
+            padding-bottom: 3px;
+            width: 60px;
+        }
+        #admin_member_outputzone{
+            margin-top: 30px;
+            width: 100%;
+            height: 500px;
+            padding: 30px;
+        }
+        #admin_member_outputzone div input{
+            width: 25px;
+            height: 25px;
+            padding-left: 5px;
+            text-align: center;
+        }
+        #admin_member_outputzone div button{
+            width: 30px;
+            height: 30px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        #admin_member_outputzone_output2{
+            float: right;
+        }
+        #admin_member_outputzone_table ul li button{
+            width: 41%;
+            margin-right: 2px;
+        }
+        #admin_member_outputzone_table ul li input{
+            width: 90%;
+            margin: 0;
+            border: none;
+            background-color: rgb(230, 230, 230);
+            text-align: center;
+        }
+        #inputMaxPage{
+            border: none;
+            background-color: rgb(230, 230, 230);;
+        }
+        .admin_member_remove{
+            background-color: rgb(247, 165, 165);
+            border: 1px solid rgb(161, 161, 161);
+        }
+        .admin_member_remove:hover{
+            background-color: red !important;
+            color: white !important;
+        }
+        .myBackColor1{
+            background-color: rgb(85, 85, 85) !important;
+            color: white !important;
+        }
+        .fontCorRed{
+            color: red;
+        }
+        #searchZone{
+                    width: 100%;
+                    height: 100px;
+                    padding-left: 20px;
+                    padding-top: 20px;
+                    margin-top: 60px;
+                }
+                #searchZone form{
+                    height: 40%;
+                    width: 80%;
+                    padding-left: 100px;
+                    
+                }
+                #searchZone form select{
+                    margin-top: 5px;
+                    height: 80%;
+                    width: 80px;
+                    margin-left: 190px;
+                }
+                #searchZone form input[type="text"]{
+                    height: 70%;
+                    width: 300px;
+                    margin-left: 3px;
+                }
+                #searchZone form input[type="submit"]{
+                    height: 80%;
+                    padding-left: 10px;
+                    padding-right: 10px;
+                }
+		.myWidth1{
+        }
+        .myWidth1 button{
+        	cursor: pointer;
+        }
+        .admin_member_promote{
+            background-color: rgb(162, 243, 81);
+            border: 1px solid rgb(190, 190, 190);
+            color: rgb(70, 70, 70);
+        }
+
+        .myWidth2{
+            width: 90px !important;
+        }
+        .myWidth3{
+            width: 80px !important;
+        }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.artauction.mapper.RegisterMapper">
+  
+  <insert id="insert">
+  	<selectKey keyProperty="gno" order="BEFORE"
+		resultType="int">
+		select seq_tb_goods.nextval from dual
+	</selectKey>
+	insert into tb_goods(gno, categoryid, registeruserid, gname, startprice, divisionPrice, endprice, ginfo)
+	values (#{gno}, #{categoryid}, #{registeruserid}, #{gname}, #{startprice}, 1000, #{endprice}, #{ginfo})
+  </insert>
+  
+  <insert id="imageInsert">
+  	insert into tb_image(gno, uuid, uploadpath, filename, thumbnail)
+  	values(#{gno},#{uuid},#{uploadpath},#{filename},#{thumbnail})
+  </insert>
+  
+  <select id="findImageByGno" resultType="com.artauction.domain.ImageVO">
+  	select * from tb_image where gno = #{gno} 
+  </select>
+  
+  <select id="getOldFiles" resultType="com.artauction.domain.ImageVO">
+  	select * from tb_image where uploadpath = to_char(sysdate-1, 'yyyy\mm\dd')
+  </select>
+  
+  <select id="checkUserAccount" resultType="int">
+  	select count(*) from tb_user where userid=#{userid} and bankaccount=#{bankaccount} and bankname=#{bankname}
+  </select>
+  
+  <update id="updateUserAccount">
+  	update tb_user set bankaccount=#{bankaccount}, bankname=#{bankname} where userid=#{userid}
+  </update>
+  
+  <select id="recommandList" resultType="com.artauction.domain.ListVO">
+  	<![CDATA[
+  	select rownum, j.gno, j.gname, j.startprice, j.flag, to_char(j.startdate, 'YYYY-MM-DD') startdate, to_char(j.enddate, 'YYYY-MM-DD') enddate, j.maxp as nowprice, i.uploadpath, i.uuid, i.filename
+	from(
+	    select g.gno, g.gname, g.startprice, g.startdate, g.flag, g.enddate, MAX(t.tprice) maxp
+	    from tb_goods g LEFT JOIN tb_trade t
+	    ON g.gno = t.gno
+	    group by g.gno, g.gname, g.startprice, g.startdate, g.enddate, g.flag
+	    order by g.gno
+	) j, tb_image i
+	where j.gno = i.gno and i.thumbnail='1' and enddate>sysdate and rownum<11 and flag='0'
+	order by enddate asc
+	]]>
+  </select>
+  
+  <select id="getUserAccount" resultType="com.artauction.domain.UserVO">
+  	select bankname, bankaccount from tb_user where userid=#{userid}
+  </select>
+  
+  </mapper>
+  

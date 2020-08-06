@@ -1,0 +1,19 @@
+# web.xml에서 다음 두 부분을 수정
+# 7번줄과 18번줄의 location부분을 자신 mac의 파일주소명에 맞게 변경해주면 된다.
+
+
+<!— 수정2 0715 —>
+      <multipart-config>
+         <location>/Users/leedonghee/Desktop/upload/</location>
+         <max-file-size>20971520</max-file-size> <!—1MB * 20 —>
+         <max-request-size>41943040</max-request-size><!— 40MB —>
+         <file-size-threshold>20971520</file-size-threshold> <!— 20MB —>
+      </multipart-config>
+<!— 수정2 0715 —>
+
+
+
+
+<!— 수정2 0716 —>
+   <resources mapping="/img/**" location="file:///Users/leedonghee/Desktop/upload/" />
+<!— 수정2 0716 —>

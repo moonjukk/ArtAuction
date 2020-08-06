@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.artauction.mapper.MemberMapper">
+  
+  <select id="idCheck" resultType="int">
+  	select count(*) from tb_user where userid=#{userid}
+  </select>
+  
+  <insert id="userRegister">
+  	insert into tb_user(userid, pw, username, userphonenum)
+  	values(#{userid},#{pw},#{username},#{userphonenum})
+  </insert>
+  
+  <insert id="authRegister">
+  	insert into tb_auth(userid, userauth)
+  	values(#{userid},'ROLE_USER')
+  </insert>
+  
+  	<!-- 리스트페이징처리 -->
+  	<select id="getListWithPaging" resultType="com.artauction.domain.UserVO">
+  		<![CDATA[
+		select X.*
+		from (
+		    select rownum as rnum, A.*
+		    from (select * from tb_user order by userid) A
+		    where rownum <= (#{pageNum}*10)) X
+		where X.rnum >= (#{pageNum}-1)*#{amount}+1
+		]]>
+	</select>
+	<!-- 리스트페이징처리 -->
+	
+	<select id="getTotalUser" resultType="int">
+		select count(*) from tb_user
+	</select>
+	
+	<select id="searchById" resultType="com.artauction.domain.UserVO">
+  		<![CDATA[
+		select X.*
+		from (
+		    select rownum as rnum, A.*
+		    from (select * from tb_user where userid LIKE '%${query}%' order by userid) A
+		    where rownum <= 12) X
+		where X.rnum >= 1
+		]]>
+	</select>
+  
+	<select id="searchByName" resultType="com.artauction.domain.UserVO">
+  		<![CDATA[
+		select X.*
+		from (
+		    select rownum as rnum, A.*
+		    from (select * from tb_user where username LIKE '%${query}%' order by username) A
+		    where rownum <= 12) X
+		where X.rnum >= 1
+		]]>
+	</select>
+	
+	
+	
+	
+	<select id="searchByIdCount" resultType="Integer">
+  		<![CDATA[
+		select count(*)
+		from (
+		    select rownum as rnum, A.*
+		    from (select * from tb_user where userid LIKE '%${query}%' order by userid) A
+		    where rownum <= 12) X
+		where X.rnum >= 1
+		]]>
+	</select>
+	<select id="searchByNameCount" resultType="Integer">
+  		<![CDATA[
+		select count(*)
+		from (
+		    select rownum as rnum, A.*
+		    from (select * from tb_user where username LIKE '%${query}%' order by username) A
+		    where rownum <= 12) X
+		where X.rnum >= 1
+		]]>
+	</select>
+	
+	
+	<!-- 관리자에의해 유저정보 update -->
+	<update id="modifyMemberByAdmin">
+		update tb_user 
+		set username=#{username}, userphonenum=#{userphonenum}, bankaccount=#{bankaccount,jdbcType=VARCHAR}, bankname=#{bankname,jdbcType=VARCHAR}, enabled=#{enabled} 
+		where userid=#{userid}
+	</update>
+	
+	
+	
+	
+	<!-- 관리자 물품정보 관리 -->
+		<!-- 리스트페이징처리 -->
+	  	<select id="getGoodsListWithPaging" resultType="com.artauction.domain.adminGoodsVO">
+	  		<![CDATA[
+			select X.*
+			from (
+			    select rownum as rnum, A.*
+			    from (
+			    	select g.gno, g.gname, g.registeruserid, g.enddate, g.flag, g.buyinguserid, i.uploadpath, i.uuid, i.filename
+					from tb_goods g, tb_image i
+					where g.gno = i.gno and i.thumbnail='1'
+					order by g.gno
+			    ) A
+			    where rownum <= (#{pageNum}*7)) X
+			where X.rnum >= (#{pageNum}-1)*#{amount}+1
+			]]>
+		</select>
+		
+		<!-- 총 몇개의 물품이 조회되었는지 확인 -->
+		<select id="getTotalGoods" resultType="int">
+			select count(*) from tb_goods
+		</select>
+	
+		<!-- 관리자에의해 물품정보 update -->
+		<update id="modifyGoodsByAdmin">
+			update tb_goods set gname=#{gname}, <!-- enddate=#{enddate}, --> flag=#{flag} where gno=#{gno}
+		</update>
+		
+		<!-- 물품정보 search관련 -->
+		<select id="searchGoodsById" resultType="com.artauction.domain.adminGoodsVO">
+	  		<![CDATA[
+			select X.*
+			from (
+			    select rownum as rnum, A.*
+			    from (
+			    	select g.gno, g.gname, g.registeruserid, g.enddate, g.flag, g.buyinguserid, i.uploadpath, i.uuid, i.filename
+					from tb_goods g, tb_image i
+					where g.gno = i.gno and i.thumbnail='1' and g.registeruserid LIKE '%${query}%'
+					order by g.registeruserid
+			    ) A
+			    where rownum <= 7) X
+			where X.rnum >= 1
+			]]>
+		</select>
+	  
+		<select id="searchGoodsByName" resultType="com.artauction.domain.adminGoodsVO">
+	  		<![CDATA[
+			select X.*
+			from (
+			    select rownum as rnum, A.*
+			    from (
+			    	select g.gno, g.gname, g.registeruserid, g.enddate, g.flag, g.buyinguserid, i.uploadpath, i.uuid, i.filename
+					from tb_goods g, tb_image i
+					where g.gno = i.gno and i.thumbnail='1' and g.gname LIKE '%${query}%'
+					order by g.gname
+			    ) A
+			    where rownum <= 7) X
+			where X.rnum >= 1
+			]]>
+		</select>
+	<!-- 관리자 물품정보 관리 -->
+	
+	<!-- 관리자 권한 관리 -->
+	<select id="checkAuth" resultType="int">
+		select count(*) from tb_auth where userid=#{userid} and userauth='ROLE_ADMIN'
+	</select>
+	<insert id="giveAuth">
+		insert into tb_auth(userid, userauth) values(#{userid}, 'ROLE_ADMIN')
+	</insert>
+	<delete id="takeAwayAuth">
+		delete tb_auth where userid=#{userid} and userauth='ROLE_ADMIN'
+	</delete>
+	<!-- 관리자 권한 관리 -->
+	
+	
+	
+	<!-- 관리자 경매물품 삭제 -->
+	<delete id="removeImage">
+		delete tb_image where gno=#{gno}
+	</delete>
+	<delete id="removeTrade">
+		delete tb_trade where gno=#{gno}
+	</delete>
+	<delete id="removeGoods">
+		delete tb_goods where gno=#{gno}
+	</delete>
+	<!-- 관리자 경매물품 삭제 -->
+	
+	<!-- 회원정보찾기 -->
+	
+		<!-- 회원정보가 있는지 확인 -->
+		<select id="checkRealUser" resultType="int">
+			select count(*)
+			from tb_user
+			where userid=#{userid} and userphonenum=#{userphonenum}
+		</select>
+		
+		<!-- 임시 pw 부여 -->
+		<update id="changeTempPw">
+			update tb_user 
+			set pw=#{temppw}
+			where userid=#{userid}
+		</update>
+		
+		<!-- 회원정보가 있는지 확인 -->
+		<select id="checkRealUserByName" resultType="int">
+			select count(*)
+			from tb_user
+			where username=#{username} and userphonenum=#{userphonenum}
+		</select>
+		<!-- ID찾기 -->
+		<select id="findUserId" resultType="com.artauction.domain.UserVO">
+			select userid
+			from tb_user
+			where username=#{username} and userphonenum=#{userphonenum}
+		</select>
+		
+	<!-- 회원정보찾기 -->
+	
+	
+	
+	<!-- 알람메세지 관련 -->
+		<insert id="setAlarm">
+			insert into tb_alarm(userid) values(#{userid})
+		</insert>
+		<select id="getAlarm" resultType="int">
+			select count(*) from tb_alarm where userid=#{userid}
+		</select>
+		<delete id="removeAlarm">
+			delete tb_alarm where userid=#{userid}
+		</delete>
+		
+		
+		<!-- 신용도 관련 -->
+		<insert id="reliabilityTry">
+			<selectKey keyProperty="tableno" order="BEFORE" resultType="int">
+				select seq_tb_reliability.nextval from dual
+			</selectKey>
+			insert into tb_reliability(tno, userid, result)
+			values(#{tableno}, #{userid}, 'TRADE_TRY')
+		</insert>
+		<insert id="reliabilitySuccess">
+			<selectKey keyProperty="tableno" order="BEFORE" resultType="int">
+				select seq_tb_reliability.nextval from dual
+			</selectKey>
+			insert into tb_reliability(tno, userid, result)
+			values(#{tableno}, #{userid}, 'TRADE_SUCCESS')
+		</insert>
+		<insert id="reliabilityFail">
+			<selectKey keyProperty="tableno" order="BEFORE" resultType="int">
+				select seq_tb_reliability.nextval from dual
+			</selectKey>
+			insert into tb_reliability(tno, userid, result)
+			values(#{tableno}, #{userid}, 'TRADE_FAIL')
+		</insert>
+		
+		<select id="reliabilityGet" resultType="com.artauction.domain.ReliabilityVO">
+			select *
+			from (select count(*) as trying from tb_reliability where userid=#{userid} and result='TRADE_TRY')a,
+			(select count(*) as success from tb_reliability where userid=#{userid} and result='TRADE_SUCCESS')b,
+			(select count(*) as fail from tb_reliability where userid=#{userid} and result='TRADE_FAIL')c
+		</select>
+	
+  </mapper>
+  

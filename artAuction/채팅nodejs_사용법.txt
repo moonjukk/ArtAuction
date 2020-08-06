@@ -1,0 +1,73 @@
+1. 데이터베이스 생성
+create database chatting default character set utf8; 
+
+2. chatting 데이터베이스 사용
+use chatting 
+
+3.테이블 2개 만들어준다.
+
+create table kochatting(
+    seq int not null auto_increment primary key,
+    id varchar(25) not null,
+    message varchar(200) not null,
+    date varchar(20) not null,
+    room varchar(30) not null
+ );
+
+create table kochattingNumber(
+     seq int not null auto_increment primary key,
+     room varchar(30) not null,
+     messageNumber varchar(5)
+ );
+
+4.cmd로 kobayChatting파일이 있는 폴더로 이동시킨다.
+이동 후에 명령어(code .)로 비쥬얼 코드 실행시킬수있음
+
+5.모듈을 설치해줌
+cmd에 npm install
+
+6.서버 실행시켜줌
+cmd에 npm start
+
+7.주소창에 localhost:3000/chatting/id로 검색 (id는 내가 들어가고 싶은 id)
+ex)http://localhost:3000/chatting/하늘
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+# 설명
+
+1.테이블 kochattingNumber
+insert 처음에 room리스트 창에 room이 없을때 해줌 데이터베이스에 room과 메세지 숫자1개를 insert해줌
+update는 3개가 있음
+1.리스트 창에 room이 있다면 insert대신 메세지 온 숫자를 update시켜줘서 메시지 온 숫자를 알려주
+2.상담사가 채팅목록에 있는 room을 클릭시 메세지 온 숫자를 ""으로 만들어줘서 업데이트 시켜줌
+3.상담사가 룸을 가르키고있는 채팅 텍스트창을 클릭시 ""으로 만들어서 업데이트 시켜줌
+select는 ajax쪽으로 뿌려주고 받고싶은 데이터를 html쪽으로 받아오게 함
+
+create table kochattingNumber(
+     seq int not null auto_increment primary key,
+     room varchar(30) not null,
+     messageNumber varchar(5)
+ );
+
+2.테이블 kochatting
+메세지가 왔을때 room,날짜,id,메세지 내용을 insert해줌
+select는 ajax쪽으로 뿌려주고 받고 싶은 데이터를 html쪽으로 받아오게함
+
+create table kochatting(
+    seq int not null auto_increment primary key,
+    id varchar(25) not null,
+    message varchar(200) not null,
+    date varchar(20) not null,
+    room varchar(30) not null
+ );
+
+
